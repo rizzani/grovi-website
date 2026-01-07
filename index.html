@@ -3,24 +3,30 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Grovi — Groceries made simple, fast, and local.</title>
+    <title>Grovi — Your groceries, sorted.</title>
+
     <meta
       name="description"
-      content="Grovi is a modern online grocery and essentials platform connecting Jamaican customers to trusted local stores."
+      content="Grovi is a Jamaican online supermarket & essentials platform that lets you browse local stores, build your cart fast, and get delivery as we expand."
     />
+
     <meta name="theme-color" content="#22c55e" />
-    <meta property="og:title" content="Grovi — Groceries made simple, fast, and local." />
+
+    <meta property="og:title" content="Grovi — Your groceries, sorted." />
     <meta
       property="og:description"
-      content="Online grocery & essentials platform focused on convenience, speed, and local Jamaican businesses."
+      content="A Jamaican online supermarket & essentials platform built around local stores, convenience, and future-ready delivery."
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="" />
     <meta property="og:url" content="https://your-username.github.io/grovi-website/" />
+
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href="https://your-username.github.io/grovi-website/" />
+
     <link rel="stylesheet" href="style.css" />
   </head>
+
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
 
@@ -29,9 +35,16 @@
         <div class="brand" aria-label="Grovi">
           <img class="logo-img" src="logo.png" alt="Grovi logo" />
         </div>
-        <nav class="site-nav" aria-label="Primary">
-          <a href="#about">About</a>
-          <a href="#features">Features</a>
+
+        <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="site-nav" id="site-nav" aria-label="Primary">
+          <a href="#about">What is Grovi</a>
+          <a href="#features">How it works</a>
           <a href="#contact">Contact</a>
         </nav>
       </div>
@@ -42,18 +55,24 @@
         <div class="container hero-inner">
           <div class="hero-grid">
             <div class="hero-content">
-              <p class="badge" aria-label="Built for Jamaica">Built for Jamaica</p>
-              <h1 id="hero-heading">Groceries made simple, fast, and local.</h1>
+              <p class="badge" aria-label="Built for Jamaica">Built for Jamaica 🇯🇲</p>
+
+              <h1 id="hero-heading">Your groceries, sorted.</h1>
+
               <p class="lead">
-                Grovi connects you to groceries and everyday essentials from trusted local stores.
+                Grovi brings supermarkets and everyday essentials into one simple experience — browse local
+                stores, build your cart fast, and get what you need with less stress.
               </p>
+
               <div class="hero-cta">
-                <button class="btn btn-primary" aria-disabled="true" disabled>Coming Soon</button>
+                <a class="btn btn-primary" href="#contact">Join the waitlist</a>
+                <a class="btn btn-ghost" href="#contact">Partner with Grovi</a>
               </div>
+
               <ul class="hero-points" aria-label="Key highlights">
-                <li>Local-first shopping</li>
-                <li>Secure accounts</li>
-                <li>Future-ready delivery</li>
+                <li>Local stores, one place</li>
+                <li>Fast checkout experience</li>
+                <li>Delivery as we scale</li>
               </ul>
             </div>
 
@@ -70,6 +89,7 @@
                     <div class="mini-line"></div>
                     <div class="mini-line short"></div>
                   </div>
+
                   <div class="mini-list">
                     <div class="mini-item">
                       <span class="mini-badge"></span>
@@ -84,9 +104,11 @@
                       <span class="mini-text"></span>
                     </div>
                   </div>
+
                   <div class="mini-cta"></div>
                 </div>
               </div>
+
               <div class="glow" aria-hidden="true"></div>
             </div>
           </div>
@@ -95,20 +117,22 @@
 
       <section id="about" class="section about" aria-labelledby="about-heading">
         <div class="container">
-          <h2 id="about-heading">About Grovi</h2>
+          <h2 id="about-heading">What is Grovi?</h2>
+
           <div class="two-col">
             <p>
-              Grovi is a modern online grocery and essentials platform built for Jamaica. We focus on
-              convenience and speed, connecting you with trusted local businesses so you can get what
-              you need—when you need it. Whether it’s weekly groceries or everyday must‑haves, Grovi
-              makes ordering simple, reliable, and local‑first.
+              Grovi is an online supermarket & essentials platform built for Jamaica. The goal is simple:
+              make grocery shopping feel less like a mission. Instead of jumping between places, Grovi helps
+              you find what you need quicker, keep your shopping organized, and move from “I need groceries”
+              to “cart done” in minutes.
             </p>
-            <div class="side-card" aria-label="What Grovi stands for">
-              <h3>Built for convenience</h3>
+
+            <div class="side-card" aria-label="Grovi focus">
+              <h3>Grovi is built around</h3>
               <ul class="check-list">
-                <li>Simple ordering flow</li>
-                <li>Local businesses at the center</li>
-                <li>Trust and reliability first</li>
+                <li>Local-first convenience</li>
+                <li>Simple & secure accounts</li>
+                <li>Scalable delivery network</li>
               </ul>
             </div>
           </div>
@@ -117,23 +141,29 @@
 
       <section id="features" class="section features" aria-labelledby="features-heading">
         <div class="container">
-          <h2 id="features-heading">Why Grovi</h2>
+          <h2 id="features-heading">How it works</h2>
+
           <div class="features-grid">
             <article class="feature-card">
-              <h3><span class="icon" aria-hidden="true"></span>Easy ordering</h3>
-              <p>Place orders in minutes with a streamlined, mobile‑first experience.</p>
+              <h3><span class="icon" aria-hidden="true"></span>Browse essentials fast</h3>
+              <p>Search and discover everyday items without the headache of endless scrolling.</p>
             </article>
+
             <article class="feature-card">
-              <h3><span class="icon" aria-hidden="true"></span>Local store access</h3>
-              <p>Shop from trusted Jamaican grocers and neighborhood essentials.</p>
+              <h3><span class="icon" aria-hidden="true"></span>Local store focus</h3>
+              <p>Grovi is designed around Jamaican shopping habits and local businesses.</p>
             </article>
+
             <article class="feature-card">
-              <h3><span class="icon" aria-hidden="true"></span>Secure accounts</h3>
-              <p>Your information is protected with secure sign‑in and best practices.</p>
+              <h3><span class="icon" aria-hidden="true"></span>Secure by design</h3>
+              <p>Modern authentication and account safety practices from day one.</p>
             </article>
+
             <article class="feature-card future">
-              <h3><span class="icon" aria-hidden="true"></span>Fast delivery (future‑ready)</h3>
-              <p>Built to support rapid delivery across Jamaica as we grow.</p>
+              <h3><span class="icon" aria-hidden="true"></span>Delivery as we scale</h3>
+              <p>
+                The platform is being built to support delivery partnerships and fulfillment as Grovi grows.
+              </p>
             </article>
           </div>
         </div>
@@ -142,10 +172,12 @@
       <section id="contact" class="section contact" aria-labelledby="contact-heading">
         <div class="container">
           <h2 id="contact-heading">Contact</h2>
+
           <div class="contact-card">
             <p class="contact-note">
-              Want to partner with Grovi or learn more? Reach out directly.
+              Want early access, partnerships, or store onboarding? Reach out — Grovi is building.
             </p>
+
             <ul class="contact-list">
               <li>
                 <span class="label">Founder</span>
@@ -153,7 +185,7 @@
               </li>
               <li>
                 <span class="label">Phone</span>
-                <a href="tel:+18762901177" rel="nofollow">+1‑876‑290‑1177</a>
+                <a href="tel:+18762901177" rel="nofollow">+1-876-290-1177</a>
               </li>
               <li>
                 <span class="label">Email</span>
@@ -170,7 +202,28 @@
         <p>© 2026 Grovi. All rights reserved.</p>
       </div>
     </footer>
+
+    <script>
+      // Mobile menu toggle
+      const menuToggle = document.querySelector('.mobile-menu-toggle');
+      const siteNav = document.querySelector('.site-nav');
+      
+      if (menuToggle && siteNav) {
+        menuToggle.addEventListener('click', () => {
+          const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+          menuToggle.setAttribute('aria-expanded', !isOpen);
+          siteNav.setAttribute('data-open', !isOpen);
+        });
+
+        // Close menu when clicking a link
+        const navLinks = siteNav.querySelectorAll('a');
+        navLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            menuToggle.setAttribute('aria-expanded', 'false');
+            siteNav.setAttribute('data-open', 'false');
+          });
+        });
+      }
+    </script>
   </body>
-  </html>
-
-
+</html>
