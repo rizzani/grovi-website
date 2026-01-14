@@ -101,69 +101,94 @@
     <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
 
     <script>
-      // Initialize Appwrite Client
-      // TODO: Replace with your actual Appwrite endpoint and project ID
-      const APPWRITE_ENDPOINT = 'https://nyc.cloud.appwrite.io/v1';
-      const APPWRITE_PROJECT_ID = '694da93500201a5a39a9';
+      (function() {
+        const APPWRITE_ENDPOINT = 'https://nyc.cloud.appwrite.io/v1';
+        const APPWRITE_PROJECT_ID = '694da93500201a5a39a9';
 
-      const { Client, Account } = Appwrite;
-      
-      const client = new Client()
-        .setEndpoint(APPWRITE_ENDPOINT)
-        .setProject(APPWRITE_PROJECT_ID);
+        const verifyIcon = document.getElementById('verify-icon');
+        const verifyTitle = document.getElementById('verify-title');
+        const verifyMessage = document.getElementById('verify-message');
+        const verifyActions = document.getElementById('verify-actions');
 
-      const account = new Account(client);
-
-      // Get URL parameters
-      const urlParams = new URLSearchParams(window.location.search);
-      const userId = urlParams.get('userId');
-      const secret = urlParams.get('secret');
-
-      const verifyIcon = document.getElementById('verify-icon');
-      const verifyTitle = document.getElementById('verify-title');
-      const verifyMessage = document.getElementById('verify-message');
-      const verifyActions = document.getElementById('verify-actions');
-
-      // Check if we have the required parameters
-      if (!userId || !secret) {
-        showError('Invalid verification link', 'The verification link is missing required parameters. Please check your email and try again.');
-        return;
-      }
-
-      // Verify the email
-      account.updateVerification(userId, secret)
-        .then(function (response) {
-          showSuccess('Email verified successfully!', 'Your email has been verified. You can now use all features of your Grovi account.');
-        })
-        .catch(function (error) {
-          console.error('Verification error:', error);
-          
-          let errorMessage = 'An error occurred while verifying your email.';
-          
-          if (error.code === 401) {
-            errorMessage = 'This verification link has expired or is invalid. Please request a new verification email.';
-          } else if (error.message) {
-            errorMessage = error.message;
+        function showSuccess(title, message) {
+          if (verifyIcon) {
+            verifyIcon.className = 'verify-icon success';
+            verifyIcon.innerHTML = '✓';
           }
-          
-          showError('Verification failed', errorMessage);
+          if (verifyTitle) verifyTitle.textContent = title;
+          if (verifyMessage) verifyMessage.textContent = message;
+          if (verifyActions) verifyActions.style.display = 'block';
+        }
+
+        function showError(title, message) {
+          if (verifyIcon) {
+            verifyIcon.className = 'verify-icon error';
+            verifyIcon.innerHTML = '✕';
+          }
+          if (verifyTitle) verifyTitle.textContent = title;
+          if (verifyMessage) verifyMessage.textContent = message;
+          if (verifyActions) verifyActions.style.display = 'block';
+        }
+
+        // Wait for DOM and Appwrite SDK to load
+        document.addEventListener('DOMContentLoaded', function() {
+          // Get URL parameters
+          const urlParams = new URLSearchParams(window.location.search);
+          const userId = urlParams.get('userId');
+          const secret = urlParams.get('secret');
+
+          console.log('URL params:', { userId, secret });
+
+          // Check if we have the required parameters
+          if (!userId || !secret) {
+            console.error('Missing URL parameters');
+            showError('Invalid verification link', 'The verification link is missing required parameters. Please check your email and try again.');
+            return;
+          }
+
+          // Wait for Appwrite to be available
+          if (typeof Appwrite === 'undefined') {
+            console.error('Appwrite SDK not loaded');
+            showError('Error', 'Failed to load Appwrite SDK. Please refresh the page.');
+            return;
+          }
+
+          try {
+            const { Client, Account } = Appwrite;
+            
+            const client = new Client()
+              .setEndpoint(APPWRITE_ENDPOINT)
+              .setProject(APPWRITE_PROJECT_ID);
+
+            const account = new Account(client);
+
+            console.log('Verifying email...');
+
+            // Verify the email
+            account.updateVerification(userId, secret)
+              .then(function (response) {
+                console.log('Verification success:', response);
+                showSuccess('Email verified successfully!', 'Your email has been verified. You can now use all features of your Grovi account.');
+              })
+              .catch(function (error) {
+                console.error('Verification error:', error);
+                
+                let errorMessage = 'An error occurred while verifying your email.';
+                
+                if (error.code === 401) {
+                  errorMessage = 'This verification link has expired or is invalid. Please request a new verification email.';
+                } else if (error.message) {
+                  errorMessage = error.message;
+                }
+                
+                showError('Verification failed', errorMessage);
+              });
+          } catch (error) {
+            console.error('Initialization error:', error);
+            showError('Error', 'Failed to initialize Appwrite client. Please refresh the page.');
+          }
         });
-
-      function showSuccess(title, message) {
-        verifyIcon.className = 'verify-icon success';
-        verifyIcon.innerHTML = '✓';
-        verifyTitle.textContent = title;
-        verifyMessage.textContent = message;
-        verifyActions.style.display = 'block';
-      }
-
-      function showError(title, message) {
-        verifyIcon.className = 'verify-icon error';
-        verifyIcon.innerHTML = '✕';
-        verifyTitle.textContent = title;
-        verifyMessage.textContent = message;
-        verifyActions.style.display = 'block';
-      }
+      })();
     </script>
   </body>
 </html>
