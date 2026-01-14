@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Verify Your Email — Grovi</title>
+
+    <meta name="description" content="Verify your Grovi account email address" />
+    <meta name="theme-color" content="#22c55e" />
+
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .verify-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+      }
+      .verify-card {
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        max-width: 500px;
+        width: 100%;
+        box-shadow: 0 20px 60px rgba(15, 23, 42, 0.10);
+        text-align: center;
+      }
+      .verify-icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 1.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+      }
+      .verify-icon.success {
+        background: rgba(34, 197, 94, 0.16);
+        color: var(--green-700);
+      }
+      .verify-icon.error {
+        background: rgba(239, 68, 68, 0.16);
+        color: #dc2626;
+      }
+      .verify-icon.loading {
+        background: rgba(34, 197, 94, 0.16);
+        color: var(--green-700);
+        animation: pulse 2s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+      .verify-card h1 {
+        margin: 0 0 1rem 0;
+        font-size: 1.75rem;
+        font-weight: 800;
+      }
+      .verify-card p {
+        margin: 0 0 1.5rem 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .verify-card .btn {
+        margin-top: 1rem;
+      }
+      .spinner {
+        border: 3px solid rgba(34, 197, 94, 0.2);
+        border-top: 3px solid var(--green-600);
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="verify-container">
+      <div class="verify-card">
+        <div id="verify-icon" class="verify-icon loading">
+          <div class="spinner"></div>
+        </div>
+        <h1 id="verify-title">Verifying your email...</h1>
+        <p id="verify-message">Please wait while we verify your email address.</p>
+        <div id="verify-actions" style="display: none;">
+          <a href="index.html" class="btn btn-primary">Go to Home</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Appwrite SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
+
+    <script>
+      // Initialize Appwrite Client
+      // TODO: Replace with your actual Appwrite endpoint and project ID
+      const APPWRITE_ENDPOINT = 'https://nyc.cloud.appwrite.io/v1';
+      const APPWRITE_PROJECT_ID = '694da93500201a5a39a9';
+
+      const { Client, Account } = Appwrite;
+      
+      const client = new Client()
+        .setEndpoint(APPWRITE_ENDPOINT)
+        .setProject(APPWRITE_PROJECT_ID);
+
+      const account = new Account(client);
+
+      // Get URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get('userId');
+      const secret = urlParams.get('secret');
+
+      const verifyIcon = document.getElementById('verify-icon');
+      const verifyTitle = document.getElementById('verify-title');
+      const verifyMessage = document.getElementById('verify-message');
+      const verifyActions = document.getElementById('verify-actions');
+
+      // Check if we have the required parameters
+      if (!userId || !secret) {
+        showError('Invalid verification link', 'The verification link is missing required parameters. Please check your email and try again.');
+        return;
+      }
+
+      // Verify the email
+      account.updateVerification(userId, secret)
+        .then(function (response) {
+          showSuccess('Email verified successfully!', 'Your email has been verified. You can now use all features of your Grovi account.');
+        })
+        .catch(function (error) {
+          console.error('Verification error:', error);
+          
+          let errorMessage = 'An error occurred while verifying your email.';
+          
+          if (error.code === 401) {
+            errorMessage = 'This verification link has expired or is invalid. Please request a new verification email.';
+          } else if (error.message) {
+            errorMessage = error.message;
+          }
+          
+          showError('Verification failed', errorMessage);
+        });
+
+      function showSuccess(title, message) {
+        verifyIcon.className = 'verify-icon success';
+        verifyIcon.innerHTML = '✓';
+        verifyTitle.textContent = title;
+        verifyMessage.textContent = message;
+        verifyActions.style.display = 'block';
+      }
+
+      function showError(title, message) {
+        verifyIcon.className = 'verify-icon error';
+        verifyIcon.innerHTML = '✕';
+        verifyTitle.textContent = title;
+        verifyMessage.textContent = message;
+        verifyActions.style.display = 'block';
+      }
+    </script>
+  </body>
+</html>
